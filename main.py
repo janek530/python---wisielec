@@ -180,6 +180,8 @@ def game_hip_hop():
         Clock.tick(60)
 
 def game():
+    drop_life = False
+    life = 5
     while life > 0:
         array_of_word_usr = []
         for i in range(len(word)):
@@ -208,26 +210,27 @@ def game():
                     d += 1
                     if rect_of_key.collidepoint(mouse_pos[0], mouse_pos[1]):
                         if event.type == pg.MOUSEBUTTONDOWN:
-                            if word_of_user == "":
+                            for elem in word_of_user:
+                                if elem != letter:
+                                    drop_life = True
+                                    continue
+                                else:
+                                    result = False
+                                    break
+                            if result == True:
                                 word_of_user += letter
                             else:
-                                for elem in word_of_user:
-                                    if elem != letter:
-                                        continue
-                                    else:
-                                        result = False
-                                        break
-                                if result == True:
-                                    word_of_user += letter
-                                else:
-                                    print("JEST!")
+                                print("JEST!")
+            if drop_life == True:
+                life -= 1
+                drop_life = False
             if life > 1:
                 draw_text("pozostało {} prób".format(life),game_font,(255,255,255),screen,20,50)
             elif life == 1:
                 draw_text("pozostała {} próba".format(life),game_font,(255,255,255),screen,20,50)
             else:
                 screen.fill("black")
-                draw_text("KONIEC GRY",game_font,(255,255,255),screen,width/2,height/2)
+                draw_text("KONIEC GRY",game_font,(255,255,255),screen,(width/2)-100,height/2-50)
             d = len(word)
             x = 0
 
@@ -280,9 +283,9 @@ def game():
                 slowo += x
             if slowo == word:
                 screen.fill("black")
-                draw_text("KONIEC GRY", game_font, (255, 255,255), screen, width / 2, height / 2)
-
-
+                draw_text("WYGRALES", game_font, (255, 255,255), screen, width / 2 - 100, height / 2)
+                pg.draw.rect(screen,(255,255,255), rect_undo, 3)
+                draw_text("Menu", game_font, (255, 255, 255), screen, 25, height - 48)
 
             pg.display.update()
             Clock.tick(60)
