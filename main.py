@@ -12,7 +12,7 @@ rect_start = pg.Rect((width/3), (height/3),250,50)
 rect_exit = pg.Rect((width/3), (height/2),250,50)
 rect_undo = pg.Rect(10,height-50,100,30)
 rect_hip_hop = pg.Rect((width/3), (height/3),250,50)
-rect_pop = pg.Rect((width/3),(height/2),250,50)
+rect_rock = pg.Rect((width/3),(height/2),250,50)
 
 screen = pg.display.set_mode(res)
 pg.display.set_caption("Wisielec")
@@ -95,8 +95,8 @@ def game_setting():
         pg.draw.rect(screen,(255, 255, 255), rect_hip_hop, 3)
         draw_text("HIP-HOP",font, (255, 255, 255), screen, width / 3 + 18, height / 3 + 2)
 
-        pg.draw.rect(screen, (255, 255, 255), rect_pop, 3)
-        draw_text("POP", font, (255, 255, 255), screen, width / 3 + 70, height / 2 + 2)
+        pg.draw.rect(screen, (255, 255, 255), rect_rock, 3)
+        draw_text("ROCK", font, (255, 255, 255), screen, width / 3 + 60, height / 2 + 2)
 
         pg.draw.rect(screen, (255, 255, 255), rect_undo, 3)
         draw_text("Menu", game_font, (255, 255, 255), screen, 25, height - 48)
@@ -104,10 +104,9 @@ def game_setting():
             if event.type == pg.QUIT:
                 pg.quit()
 
-            if rect_exit.collidepoint(mouse_pos[0],mouse_pos[1]):
+            if rect_rock.collidepoint(mouse_pos[0],mouse_pos[1]):
                 if event.type == pg.MOUSEBUTTONDOWN:
-                    pg.quit()
-                    #dodac pop
+                    game_rock()
 
             if rect_hip_hop.collidepoint(mouse_pos[0], mouse_pos[1]):
                 if event.type == pg.MOUSEBUTTONDOWN:
@@ -148,6 +147,21 @@ def main_menu():
         pg.display.update()
         Clock.tick(60)
 
+def game_rock():
+    while True:
+        screen.fill("black")
+        mouse_pos = pg.mouse.get_pos()
+        shuffle_word("rock.txt")
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+
+        if rect_undo.collidepoint(mouse_pos[0], mouse_pos[1]):
+            if event.type == pg.MOUSEBUTTONDOWN:
+                main_menu()
+
+        pg.display.update()
+        Clock.tick(60)
 
 def game_hip_hop():
     while True:
@@ -164,7 +178,6 @@ def game_hip_hop():
 
         pg.display.update()
         Clock.tick(60)
-
 
 def game():
     while life > 0:
@@ -268,7 +281,7 @@ def game():
             if slowo == word:
                 screen.fill("black")
                 draw_text("KONIEC GRY", game_font, (255, 255,255), screen, width / 2, height / 2)
-                
+
 
 
             pg.display.update()
